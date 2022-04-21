@@ -177,15 +177,15 @@ void give_init_val(char *s, int len)
 }
 char* RLEListExportToString(RLEList list, RLEListResult* result){
     int len = nodes_count(list);
-    char *minimized = (char*)malloc((*minimized)*sizeof(char)*len*3);
+    char *minimized = (char*)malloc(sizeof(*minimized)*sizeof(char)*len*3);
     give_init_val(minimized, len);
     char _occur, _character;
     RLEList helper = list;
     while(helper != NULL){
         _character = (char)helper->character;
         _occur = helper->occur + '0';
-        strcat(minimized, _character);
-        strcat(minimized, _occur);
+        strcat(minimized, &_character);
+        strcat(minimized, &_occur);
         //strcat(minimized, "\n");
         helper = helper->next;
     }
