@@ -1,7 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <AsciiArtTool.h>
+#include <RLEList.h>
 
+void encode(FILE* input, FILE* output)
+{
+   RLEList List = asciiArtRead(input);
+   asciiArtPrintEncoded(List, output);
+}
+void invert(FILE* input, FILE* output)
+{
+   RLEList list = asciiArtRead(input);
+   RLEListMap(list, MapFunction);
+}
 char MapFunction(char c)
 {
     if(c==' ')
@@ -44,17 +56,9 @@ if(argc>4)
      error("Error: cannot open", argv[2]);
  }
 if(strcmp(argv[1],"-e")==0)
-   encode();
+   encode(argv[2], argv[3]);
 if(strcmp(argv[1],"-i")==0)
-   inverte();
-   
-
-
-
-
- 
-
-
-
-
+   invert(argv[2], argv[3]);
+fclose(input);
+fclose(output);
 }
