@@ -91,17 +91,42 @@ free(helper);
 return size;
 }
 
-void remove_node(RLEList node){
-    RLEList toDelete = node;
+RLEList remove(RLEList node){
+       RLEList toDelete = node;
     if(node->prev == NULL){
         node = node->next;
-        return;
+        free(toDelete);
+        return NULL;
     }
+    if(node->next == NULL){
+        node = node->prev;
+        node->next = NULL;
+        free(toDelete);
+        return NULL;
+    }
+
     RLEList _next_node = node->next;
     RLEList _prev_node = node->prev;
     _next_node->prev = _prev_node;
     _prev_node->next = _next_node;
-    free(toDelete);
+    return _prev_node;
+
+}
+
+void remove_node(RLEList node){
+    RLEList help = remove(node);
+    if(help == NULL)
+    {
+        return;
+    }
+    RLEList _next_node = node->next;
+    if(_next_node->character == node->character)
+    {
+        int prev_occur = node->occur;
+        remove(node);
+        _next_node->occur += prev_occur;
+    }
+    //free(help);
     }
 
 RLEList get_node(RLEList list, int index){
@@ -116,7 +141,6 @@ RLEList get_node(RLEList list, int index){
     }
     return helper;
 }
-
 RLEListResult RLEListRemove(RLEList list, int index){
     if(!list){
         assert(list);
@@ -128,7 +152,15 @@ RLEListResult RLEListRemove(RLEList list, int index){
     RLEList node = get_node(list, index);
 
     if(node->occur == 1){
+        if (index==0)
+        {
+            list=list->next;
+            list->prev=NULL;
+            free(node);
+        }
+        else{
         remove_node(node);
+        }
         return RLE_LIST_SUCCESS;
     }
     node->occur-=1;

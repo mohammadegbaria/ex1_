@@ -64,19 +64,3 @@ RLEListResult asciiArtPrintEncoded(RLEList list, FILE *out_stream)
     fputs(encoded, out_stream);
     return RLE_LIST_SUCCESS;
 }
-
-FILE* initInputFile(int argc, char** argv) {
-	if (argc < 3) {
-		return stdin;
-	}
-
-	return fopen(argv[2], "r");
-}
-
-FILE* initOutputFile(int argc, char** argv) {
-	if (argc < 3) {
-		return stdout;
-	}
-
-	return fopen(argv[3], "w");
-}
