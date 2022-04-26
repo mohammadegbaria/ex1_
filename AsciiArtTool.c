@@ -2,7 +2,6 @@
 #include "stdbool.h"
 #include "RLEList.h"
 #include "AsciiArtTool.h"
-#include "RLEList.c"
 #define buffer_size 256
 
 void minimize_and_add_to_RLEList(RLEList list, char* str)
@@ -38,7 +37,6 @@ RLEListResult asciiArtPrint(RLEList list, FILE *out_stream)
     }
 
     RLEList helper = list;
-    char *line = (char*)malloc(buffer_size);
     while (list)
     {
         while (helper->character != '\n')

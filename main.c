@@ -1,8 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <AsciiArtTool.h>
-#include <RLEList.h>
+#include "AsciiArtTool.h"
+#include "RLEList.h"
+
+char convert(char c)
+{
+    if(c==' ')
+       return '@';
+    if (c=='@')
+       return ' ';
+return c ;   
+}
 
 void encode(FILE* input, FILE* output)
 {
@@ -12,16 +21,9 @@ void encode(FILE* input, FILE* output)
 void invert(FILE* input, FILE* output)
 {
    RLEList list = asciiArtRead(input);
-   RLEListMap(list, MapFunction);
+   RLEListMap(list, convert);
 }
-char MapFunction(char c)
-{
-    if(c==' ')
-       return '@';
-    if (c=='@')
-       return ' ';
-return c ;   
-}
+
 void error(char* message, char* filename)
 {
   fprintf(stderr,"%s %s\n", message, filename ? filename : "");
@@ -56,9 +58,9 @@ if(argc>4)
      error("Error: cannot open", argv[2]);
  }
 if(strcmp(argv[1],"-e")==0)
-   encode(argv[2], argv[3]);
+   encode(input, output);
 if(strcmp(argv[1],"-i")==0)
-   invert(argv[2], argv[3]);
+   invert(input, output);
 fclose(input);
 fclose(output);
 }

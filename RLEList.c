@@ -3,8 +3,6 @@
 #include "assert.h"
 #include "string.h"
 
-#define NEWLINE "\n"
-
 struct RLEList_t{
     char character;
     int occur;
@@ -91,7 +89,7 @@ free(helper);
 return size;
 }
 
-RLEList remove(RLEList node){
+RLEList my_remove(RLEList node){
        RLEList toDelete = node;
     if(node->prev == NULL){
         node = node->next;
@@ -114,7 +112,7 @@ RLEList remove(RLEList node){
 }
 
 void remove_node(RLEList node){
-    RLEList help = remove(node);
+    RLEList help = my_remove(node);
     if(help == NULL)
     {
         return;
@@ -123,7 +121,7 @@ void remove_node(RLEList node){
     if(_next_node->character == node->character)
     {
         int prev_occur = node->occur;
-        remove(node);
+        my_remove(node);
         _next_node->occur += prev_occur;
     }
     //free(help);
@@ -240,3 +238,7 @@ RLEListResult RLEListMap(RLEList list, MapFunction map_function){
     return RLE_LIST_SUCCESS;
 }
 
+char get_char(RLEList node)
+{
+    return node->character;
+}
